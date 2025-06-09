@@ -93,6 +93,20 @@ public class Block
         set { _parentDormitory = value; }
     }
 }
+//کلاس تجهیزات(کامنت توسط خودمه )
+public class Equipment
+{
+    public enum EquipmentType { Bed, Closet, Table, Chair, Refrigerator }
+    public enum EquipmentStatus { Healthy, Damaged, InRepair }
+
+    public EquipmentType Type { get; set; }
+    public string PartNumber { get; set; }
+    public string AssetNumber { get; set; } 
+    public EquipmentStatus Status { get; set; }
+
+    public Room AssignedRoom { get; set; }
+    public Student OwnerStudent { get; set; } 
+}
 class Program
 {
     static void Main()
