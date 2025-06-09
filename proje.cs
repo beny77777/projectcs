@@ -107,6 +107,31 @@ public class Equipment
     public Room AssignedRoom { get; set; }
     public Student OwnerStudent { get; set; } 
 }
+//کامنت خودمه:کلاس اتاق ها(برای اینکه بفهمم هربخش برای چیه)
+public class Room
+{
+    public string RoomNumber { get; set; }
+    public int Floor { get; set; }
+    public int Capacity { get; set; } = 6; // حداکثر 6 نفر
+
+    private List<Equipment> _equipments = new();
+    public List<Equipment> Equipments
+    {
+        get { return _equipments; }
+        set { _equipments = value ?? new List<Equipment>(); }
+    }
+
+    private List<Student> _residents = new();
+    public List<Student> Residents
+    {
+        get { return _residents; }
+        set { _residents = value ?? new List<Student>(); }
+    }
+
+    public Block ParentBlock { get; set; }
+
+    public bool IsFull => Residents.Count >= Capacity;
+}
 class Program
 {
     static void Main()
