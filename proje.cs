@@ -132,6 +132,34 @@ public class Room
 
     public bool IsFull => Residents.Count >= Capacity;
 }
+// کلاس برای خوابگاه
+public class Dormitory
+{
+    public string Name { get; set; }
+    public string Address { get; set; }
+    public int TotalCapacity { get; set; }
+
+    private DormitoryManager _manager;
+    public DormitoryManager Manager
+    {
+        get { return _manager; }
+        set { _manager = value; }
+    }
+
+    private List<Block> _blocks = new();
+    public List<Block> Blocks
+    {
+        get { return _blocks; }
+        set
+         {
+    if (value != null)
+        _blocks = value;
+    else
+        _blocks = new List<Block>();
+         }
+
+    }
+}
 class Program
 {
     static void Main()
