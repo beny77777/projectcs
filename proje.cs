@@ -118,19 +118,41 @@ public class Room
     public List<Equipment> Equipments
     {
         get { return _equipments; }
-        set { _equipments = value ?? new List<Equipment>(); }
+set
+{
+    if (value != null)
+        _equipments = value;
+    else
+        _equipments = new List<Equipment>();
+}
     }
 
     private List<Student> _residents = new();
     public List<Student> Residents
     {
         get { return _residents; }
-        set { _residents = value ?? new List<Student>(); }
+       set
+{
+    if (value != null)
+        _residents = value;
+    else
+        _residents = new List<Student>();
+}
+
     }
 
     public Block ParentBlock { get; set; }
 
-    public bool IsFull => Residents.Count >= Capacity;
+    public bool IsFull
+{
+    get
+    {
+        if (Residents.Count < Capacity)
+            return false;
+        else
+            return true;
+    }
+}
 }
 // کلاس برای خوابگاه
 public class Dormitory
