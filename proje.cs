@@ -182,6 +182,18 @@ public class Dormitory
 
     }
 }
+// کلاس برای مدیر خوابگاه
+public class DormitoryManager : Person
+{
+    public string Position { get; set; }
+    public Dormitory AssignedDormitory { get; set; }
+}
+//کلاس برای مدیر بلوک
+public class BlockManager : Student 
+{
+    public string Position { get; set; }
+    public Block AssignedBlock { get; set; }
+}
 class Program
 {
     static void Main()
