@@ -212,6 +212,12 @@ public class DormitorySystem
     if (dorm != null && !_dormitories.Contains(dorm))
         _dormitories.Add(dorm);
 }
+public void AddStudent(Student student)
+{
+    if (student != null && !_students.Contains(student))
+        _students.Add(student);
+}
+
 
 }
 
