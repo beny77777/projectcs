@@ -222,7 +222,14 @@ public void AddStudent(Student student)
     if (dormitory != null && !_dormitories.Contains(dormitory))
         _dormitories.Add(dormitory);
 }
-
+public void AddBlockToDormitory(Block block, Dormitory dormitory)
+{
+    if (block != null && dormitory != null && dormitories.Contains(dormitory))
+    {
+        dormitory.Blocks.Add(block);
+        block.ParentDormitory = dormitory;
+    }
+}
 
 }
 
