@@ -217,6 +217,11 @@ public void AddStudent(Student student)
     if (student != null && !_students.Contains(student))
         _students.Add(student);
 }
+ public void AddDormitory(Dormitory dormitory)
+{
+    if (dormitory != null && !_dormitories.Contains(dormitory))
+        _dormitories.Add(dormitory);
+}
 
 
 }
