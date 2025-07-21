@@ -207,8 +207,13 @@ public class DormitorySystem
     public List<DormitoryManager> DormitoryManagers => _dormManagers;
     public List<BlockManager> BlockManagers => _blockManagers;
     public List<Equipment> Equipments => _allEquipments;
+    public void AddDormitory(Dormitory dorm)
+{
+    if (dorm != null && !_dormitories.Contains(dorm))
+        _dormitories.Add(dorm);
 }
 
+}
 
 class Program
 {
