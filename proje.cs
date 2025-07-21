@@ -235,6 +235,13 @@ public void AddStudent(Student student)
     if (!_students.Contains(student))
         _students.Add(student);
 }
+public void RemoveStudent(Student student)
+{
+    if (student != null && _students.Contains(student))
+    {
+        _students.Remove(student);
+    }
+}
 
 
 }
