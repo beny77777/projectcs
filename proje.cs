@@ -230,6 +230,12 @@ public void AddBlockToDormitory(Block block, Dormitory dormitory)
         block.ParentDormitory = dormitory;
     }
 }
+public void AddStudent(Student student)
+{
+    if (!_students.Contains(student))
+        _students.Add(student);
+}
+
 
 }
 
