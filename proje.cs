@@ -194,6 +194,22 @@ public class BlockManager : Student
     public string Position { get; set; }
     public Block AssignedBlock { get; set; }
 }
+public class DormitorySystem
+{
+    private List<Dormitory> _dormitories = new();
+    private List<Student> _students = new();
+    private List<DormitoryManager> _dormManagers = new();
+    private List<BlockManager> _blockManagers = new();
+    private List<Equipment> _allEquipments = new();
+
+    public List<Dormitory> Dormitories => _dormitories;
+    public List<Student> Students => _students;
+    public List<DormitoryManager> DormitoryManagers => _dormManagers;
+    public List<BlockManager> BlockManagers => _blockManagers;
+    public List<Equipment> Equipments => _allEquipments;
+}
+
+
 class Program
 {
     static void Main()
