@@ -172,6 +172,11 @@ public class Dormitory
     public string Name { get; set; }
     public string Address { get; set; }
     public int TotalCapacity { get; set; }
+    public Dormitory()
+{
+    _blocks = new List<Block>();
+}
+
 
     private DormitoryManager _manager;
     public DormitoryManager Manager
@@ -182,17 +187,11 @@ public class Dormitory
 
     private List<Block> _blocks = new();
     public List<Block> Blocks
-    {
-        get { return _blocks; }
-        set
-         {
-    if (value != null)
-        _blocks = value;
-    else
-        _blocks = new List<Block>();
-         }
+{
+    get { return _blocks; }
+    set { _blocks = value ?? new List<Block>(); }
+}
 
-    }
     public int CurrentCapacity()
 {
     int count = 0;
