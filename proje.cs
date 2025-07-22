@@ -59,6 +59,11 @@ public class Student : Person
 public class Block
 {
     private string _blockName;
+    public Block()
+{
+    _rooms = new List<Room>();
+}
+
     public string BlockName
     {
         get { return _blockName; }
@@ -84,12 +89,11 @@ public class Block
     }
 
     private List<Room> _rooms = new List<Room>();
-    public List<Room> Rooms
-    {
-        get { return _rooms; }
-        set { _rooms = value ?? new List<Room>(); }
-    }
-
+   public List<Room> Rooms
+{
+    get { return _rooms; }
+    set { _rooms = value ?? new List<Room>(); }
+}
     private Dormitory _parentDormitory;
     public Dormitory ParentDormitory
     {
