@@ -181,6 +181,21 @@ public class Dormitory
          }
 
     }
+    public int CurrentCapacity()
+{
+    int count = 0;
+    foreach (var room in Rooms)
+    {
+        count += room.CurrentCapacity();
+    }
+    return count;
+}
+
+public int RemainingCapacity()
+{
+    return Capacity - CurrentCapacity();
+}
+
 }
 // کلاس برای مدیر خوابگاه
 public class DormitoryManager : Person
