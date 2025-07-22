@@ -343,6 +343,21 @@ public Dormitory GetDormitory(string dormName)
     }
     return null;
 }
+public bool TransferEquipment(Equipment equipment, Room newRoom)
+{
+    if (equipment == null || newRoom == null)
+        return false;
+
+    Room oldRoom = equipment.AssignedRoom;
+
+    if (oldRoom != null)
+        oldRoom.Equipments.Remove(equipment);
+
+    newRoom.Equipments.Add(equipment);
+    equipment.AssignedRoom = newRoom;
+
+    return true;
+}
 
 }
 
