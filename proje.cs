@@ -1,435 +1,551 @@
 using System;
 using System.Collections.Generic;
-class Person
+
+public class Person
 {
-    public string FullName { get; set; } 
-    public string Id { get; set; } 
-    public string PhoneNumber { get; set; } 
-    public string Address { get; set; } 
+    public string FullName { get; set; }
+    public string Id { get; set; }
+    public string PhoneNumber { get; set; }
+    public string Address { get; set; }
 }
 
 public class Student : Person
 {
-   
-    private string _studentId;
-    private Room _assignedRoom;
-    private Block _residenceBlock;
-    private Dormitory _residenceDormitory;
-    private List<Equipment> _personalItems = new();
+    private string studentId;
+    private Room assignedRoom;
+    private Block residenceBlock;
+    private Dormitory residenceDormitory;
+    private List<Equipment> personalItems = new List<Equipment>();
 
-    public Student()
-{
-    _personalItems = new List<Equipment>();
-}
+    public Student() { }
+
+    public Student(string fullName, string id, string studentId)
+    {
+        FullName = fullName;
+        Id = id;
+        this.studentId = studentId;
+    }
 
     public string StudentId
     {
-        get { return _studentId; }
-        set { _studentId = value; }
+        get { return studentId; }
+        set { studentId = value; }
     }
 
-    
     public Room AssignedRoom
     {
-        get { return _assignedRoom; }
-        set { _assignedRoom = value; }
+        get { return assignedRoom; }
+        set { assignedRoom = value; }
     }
 
-    
     public Block ResidenceBlock
     {
-        get { return _residenceBlock; }
-        set { _residenceBlock = value; }
+        get { return residenceBlock; }
+        set { residenceBlock = value; }
     }
 
-   
     public Dormitory ResidenceDormitory
     {
-        get { return _residenceDormitory; }
-        set { _residenceDormitory = value; }
+        get { return residenceDormitory; }
+        set { residenceDormitory = value; }
     }
 
     public List<Equipment> PersonalItems
-{
-    get { return _personalItems; }
-    set { _personalItems = value ?? new List<Equipment>(); }
+    {
+        get { return personalItems; }
+        set { personalItems = value ?? new List<Equipment>(); }
+    }
 }
 
-}
 public class Block
 {
-    private string _blockName;
-    public Block()
-{
-    _rooms = new List<Room>();
-}
+    private string blockName;
+    private int floorCount;
+    private int roomCount;
+    private BlockManager manager;
+    private List<Room> rooms = new List<Room>();
+    private Dormitory parentDormitory;
+
+    public Block() { }
 
     public string BlockName
     {
-        get { return _blockName; }
-        set { _blockName = value; }
-    }
-    private int _floorCount;
-    public int FloorCount
-    {
-        get { return _floorCount; }
-        set { _floorCount = value; }
-    }
-    private int _roomCount;
-    public int RoomCount
-    {
-        get { return _roomCount; }
-        set { _roomCount = value; }
-    }
-    private BlockManager _manager;
-    public BlockManager Manager
-    {
-        get { return _manager; }
-        set { _manager = value; }
+        get { return blockName; }
+        set { blockName = value; }
     }
 
-    private List<Room> _rooms = new List<Room>();
-   public List<Room> Rooms
-{
-    get { return _rooms; }
-    set { _rooms = value ?? new List<Room>(); }
-}
-    private Dormitory _parentDormitory;
+    public int FloorCount
+    {
+        get { return floorCount; }
+        set { floorCount = value; }
+    }
+
+    public int RoomCount
+    {
+        get { return roomCount; }
+        set { roomCount = value; }
+    }
+
+    public BlockManager Manager
+    {
+        get { return manager; }
+        set { manager = value; }
+    }
+
+    public List<Room> Rooms
+    {
+        get { return rooms; }
+        set { rooms = value ?? new List<Room>(); }
+    }
+
     public Dormitory ParentDormitory
     {
-        get { return _parentDormitory; }
-        set { _parentDormitory = value; }
+        get { return parentDormitory; }
+        set { parentDormitory = value; }
     }
 }
-//کلاس تجهیزات(کامنت توسط خودمه )
+
 public class Equipment
 {
     public enum EquipmentType { Bed, Closet, Table, Chair, Refrigerator }
     public enum EquipmentStatus { Healthy, Damaged, InRepair }
+
     public string Name { get; set; }
     public EquipmentType Type { get; set; }
     public string PartNumber { get; set; }
-    public string AssetNumber { get; set; } 
+    public string AssetNumber { get; set; }
     public EquipmentStatus Status { get; set; }
 
     public Room AssignedRoom { get; set; }
-    public Student OwnerStudent { get; set; } 
+    public Student OwnerStudent { get; set; }
 }
-//کامنت خودمه:کلاس اتاق ها(برای اینکه بفهمم هربخش برای چیه)
+
 public class Room
 {
     public string RoomNumber { get; set; }
     public int Floor { get; set; }
-    public int Capacity { get; set; } = 6; // حداکثر 6 نفر
-    public Room()
-{
-    _residents = new List<Student>();
-    _equipments = new List<Equipment>();
-}
+    public int Capacity { get; set; } = 6; // max 6 residents
 
-    private List<Equipment> _equipments = new();
+    private List<Student> residents = new List<Student>();
+    private List<Equipment> equipments = new List<Equipment>();
+
+    public Room() { }
+
     public List<Equipment> Equipments
-{
-    get { return _equipments; }
-    set { _equipments = value ?? new List<Equipment>(); }
-}
+    {
+        get { return equipments; }
+        set { equipments = value ?? new List<Equipment>(); }
+    }
 
-
-    private List<Student> _residents = new();
     public List<Student> Residents
-{
-    get { return _residents; }
-    set { _residents = value ?? new List<Student>(); }
-}
-
+    {
+        get { return residents; }
+        set { residents = value ?? new List<Student>(); }
+    }
 
     public Block ParentBlock { get; set; }
 
-    public bool IsFull
-{
-    get
+    public int CurrentCapacity()
     {
-        if (Residents.Count < Capacity)
-            return false;
-        else
-            return true;
+        return Residents.Count;
+    }
+
+    public bool IsFull
+    {
+        get
+        {
+            return Residents.Count >= Capacity;
+        }
     }
 }
-public int CurrentCapacity()
-{
-    return Students.Count;
-}
 
-public bool IsFull()
-{
-    return Students.Count >= Capacity;
-}
-
-}
-// کلاس برای خوابگاه
 public class Dormitory
 {
     public string Name { get; set; }
     public string Address { get; set; }
     public int TotalCapacity { get; set; }
-    public Dormitory()
-{
-    _blocks = new List<Block>();
-}
 
+    private DormitoryManager manager;
+    private List<Block> blocks = new List<Block>();
 
-    private DormitoryManager _manager;
+    public Dormitory() { }
+
     public DormitoryManager Manager
     {
-        get { return _manager; }
-        set { _manager = value; }
+        get { return manager; }
+        set { manager = value; }
     }
 
-    private List<Block> _blocks = new();
     public List<Block> Blocks
-{
-    get { return _blocks; }
-    set { _blocks = value ?? new List<Block>(); }
-}
+    {
+        get { return blocks; }
+        set { blocks = value ?? new List<Block>(); }
+    }
 
     public int CurrentCapacity()
-{
-    int count = 0;
-    foreach (var room in Rooms)
     {
-        count += room.CurrentCapacity();
+        int count = 0;
+        foreach (var block in Blocks)
+        {
+            foreach (var room in block.Rooms)
+            {
+                count += room.CurrentCapacity();
+            }
+        }
+        return count;
     }
-    return count;
+
+    public int RemainingCapacity()
+    {
+        return TotalCapacity - CurrentCapacity();
+    }
 }
 
-public int RemainingCapacity()
-{
-    return Capacity - CurrentCapacity();
-}
-
-}
-// کلاس برای مدیر خوابگاه
 public class DormitoryManager : Person
 {
     public string Position { get; set; }
     public Dormitory AssignedDormitory { get; set; }
 }
-//کلاس برای مدیر بلوک
-public class BlockManager : Student 
+
+public class BlockManager : Person
 {
     public string Position { get; set; }
     public Block AssignedBlock { get; set; }
 }
+
 public class DormitorySystem
 {
-    private List<Dormitory> _dormitories = new();
-    private List<Student> _students = new();
-    private List<DormitoryManager> _dormManagers = new();
-    private List<BlockManager> _blockManagers = new();
-    private List<Equipment> _allEquipments = new();
+    private List<Dormitory> dormitories = new List<Dormitory>();
+    private List<Student> students = new List<Student>();
+    private List<DormitoryManager> dormManagers = new List<DormitoryManager>();
+    private List<BlockManager> blockManagers = new List<BlockManager>();
+    private List<Equipment> allEquipments = new List<Equipment>();
 
-    public List<Dormitory> Dormitories => _dormitories;
-    public List<Student> Students => _students;
-    public List<DormitoryManager> DormitoryManagers => _dormManagers;
-    public List<BlockManager> BlockManagers => _blockManagers;
-    public List<Equipment> Equipments => _allEquipments;
+    public List<Dormitory> Dormitories => dormitories;
+    public List<Student> Students => students;
+    public List<DormitoryManager> DormitoryManagers => dormManagers;
+    public List<BlockManager> BlockManagers => blockManagers;
+    public List<Equipment> Equipments => allEquipments;
+
     public Equipment GetEquipmentByName(string name)
-{
-    return _allEquipments.FirstOrDefault(eq => eq.Name == name);
-}
+    {
+        foreach (var eq in allEquipments)
+        {
+            if (eq.Name == name)
+                return eq;
+        }
+        return null;
+    }
 
     public void AddEquipment(Equipment equipment)
-{
-    if (equipment != null && !_allEquipments.Contains(equipment))
-        _allEquipments.Add(equipment);
-}
-
-public bool RemoveEquipment(Equipment equipment)
-{
-    if (equipment != null && _allEquipments.Contains(equipment))
     {
-        _allEquipments.Remove(equipment);
-        return true;
+        if (equipment != null && !allEquipments.Contains(equipment))
+            allEquipments.Add(equipment);
     }
-    return false;
-}
 
-  
-
-    public DormitorySystem()
-{
-    _students = new List<Student>();
-_allEquipments = new List<Equipment>();
-_dormitories = new List<Dormitory>();
-
-}
-
-    
-public void AddStudent(Student student)
-{
-    if (student != null && !_students.Contains(student))
-        _students.Add(student);
-}
- public void AddDormitory(Dormitory dormitory)
-{
-    if (dormitory != null && !_dormitories.Contains(dormitory))
-        _dormitories.Add(dormitory);
-}
-public void AddBlockToDormitory(Block block, Dormitory dormitory)
-{
-    if (block != null && dormitory != null && _dormitories.Contains(dormitory))
+    public bool RemoveEquipment(Equipment equipment)
     {
-        dormitory.Blocks.Add(block);
-        block.ParentDormitory = dormitory;
-    }
-}
-
-public void RemoveStudent(Student student)
-{
-    if (student != null && _students.Contains(student))
-    {
-        _students.Remove(student);
-    }
-}
-public bool RemoveBlock(string dormName, string blockName)
-{
-    Dormitory dorm = GetDormitory(dormName);
-    if (dorm == null) return false;
-
-    Block block = null;
-    foreach (Block b in dorm.Blocks)
-    {
-        if (b.BlockName == blockName)
+        if (equipment != null && allEquipments.Contains(equipment))
         {
-            block = b;
-            break;
+            allEquipments.Remove(equipment);
+            return true;
+        }
+        return false;
+    }
+
+    public DormitorySystem() { }
+
+    public void AddStudent(Student student)
+    {
+        if (student != null && !students.Contains(student))
+            students.Add(student);
+    }
+
+    public void AddDormitory(Dormitory dormitory)
+    {
+        if (dormitory != null && !dormitories.Contains(dormitory))
+            dormitories.Add(dormitory);
+    }
+
+    public void AddBlockToDormitory(Block block, Dormitory dormitory)
+    {
+        if (block != null && dormitory != null && dormitories.Contains(dormitory))
+        {
+            dormitory.Blocks.Add(block);
+            block.ParentDormitory = dormitory;
         }
     }
 
-    if (block != null)
+    public void RemoveStudent(Student student)
     {
-        dorm.Blocks.Remove(block);
-        return true;
-    }
-    return false;
-}
-public bool AddBlockToDormitory(string dormName, Block block)
-{
-    Dormitory dorm = GetDormitory(dormName);
-    if (dorm == null) return false;
-    if (block.Manager == null || !_students.Contains(block.Manager)) return false;
-    block.ParentDormitory = dorm;
-    dorm.Blocks.Add(block);
-    return true;
-}
-public Block GetBlock(string dormName, string blockName)
-{
-    Dormitory dorm = GetDormitory(dormName);
-    if (dorm == null) return null;
-
-    foreach (Block b in dorm.Blocks)
-    {
-        if (b.BlockName == blockName)
-            return b;
-    }
-    return null;
-}
-public Dormitory GetDormitory(string dormName)
-{
-    foreach (Dormitory d in _dormitories)
-    {
-        if (d.Name == dormName)
-            return d;
-    }
-    return null;
-}
-public bool TransferEquipment(Equipment equipment, Room newRoom)
-{
-    if (equipment == null || newRoom == null)
-        return false;
-
-    Room oldRoom = equipment.AssignedRoom;
-
-    if (oldRoom != null)
-        oldRoom.Equipments.Remove(equipment);
-
-    newRoom.Equipments.Add(equipment);
-    equipment.AssignedRoom = newRoom;
-
-    return true;
-}
-public bool TransferStudent(Student student, Room newRoom)
-{
-    if (student == null || newRoom == null || newRoom.IsFull)
-        return false;
-
-    Room oldRoom = student.AssignedRoom;
-    if (oldRoom != null)
-        oldRoom.Residents.Remove(student);
-
-    newRoom.Residents.Add(student);
-    student.AssignedRoom = newRoom;
-
-    return true;
-}
-public int GetRemainingCapacity(string dormName)
-{
-    Dormitory dorm = GetDormitory(dormName);
-    if (dorm == null)
-        return -1;
-
-    int total = 0;
-    foreach (Block block in dorm.Blocks)
-    {
-        foreach (Room room in block.Rooms)
+        if (student != null && students.Contains(student))
         {
-            total += room.Capacity - room.Residents.Count;
+            students.Remove(student);
         }
     }
-    return total;
-}
-public bool AssignEquipmentToRoom(string equipmentName, Room room)
-{
-    var equipment = GetEquipmentByName(equipmentName);
-    if (equipment == null || room == null)
+
+    public bool RemoveBlock(string dormName, string blockName)
+    {
+        Dormitory dorm = GetDormitory(dormName);
+        if (dorm == null) return false;
+
+        Block block = null;
+        foreach (Block b in dorm.Blocks)
+        {
+            if (b.BlockName == blockName)
+            {
+                block = b;
+                break;
+            }
+        }
+
+        if (block != null)
+        {
+            dorm.Blocks.Remove(block);
+            return true;
+        }
         return false;
+    }
 
-    equipment.AssignedRoom = room;
-    equipment.OwnerStudent = null; // فقط به اتاق نسبت داده شده
-    room.Equipments.Add(equipment);
-    return true;
-}
+    public bool AddBlockToDormitory(string dormName, Block block)
+    {
+        Dormitory dorm = GetDormitory(dormName);
+        if (dorm == null) return false;
 
-public bool AssignEquipmentToStudent(string equipmentName, Student student)
-{
-    var equipment = GetEquipmentByName(equipmentName);
-    if (equipment == null || student == null)
-        return false;
+        block.ParentDormitory = dorm;
+        dorm.Blocks.Add(block);
+        return true;
+    }
 
-    equipment.OwnerStudent = student;
-    equipment.AssignedRoom = null; // فقط به دانشجو نسبت داده شده
-    student.PersonalItems.Add(equipment);
-    return true;
-}
+    public Block GetBlock(string dormName, string blockName)
+    {
+        Dormitory dorm = GetDormitory(dormName);
+        if (dorm == null) return null;
 
-public bool UnassignEquipment(string equipmentName)
-{
-    var equipment = GetEquipmentByName(equipmentName);
-    if (equipment == null)
-        return false;
+        foreach (Block b in dorm.Blocks)
+        {
+            if (b.BlockName == blockName)
+                return b;
+        }
+        return null;
+    }
 
-    equipment.AssignedRoom?.Equipments.Remove(equipment);
-    equipment.OwnerStudent?.PersonalItems.Remove(equipment);
-    equipment.AssignedRoom = null;
-    equipment.OwnerStudent = null;
-    return true;
-}
+    public Dormitory GetDormitory(string dormName)
+    {
+        foreach (Dormitory d in dormitories)
+        {
+            if (d.Name == dormName)
+                return d;
+        }
+        return null;
+    }
 
+    public bool TransferEquipment(Equipment equipment, Room newRoom)
+    {
+        if (equipment == null || newRoom == null)
+            return false;
+
+        Room oldRoom = equipment.AssignedRoom;
+
+        if (oldRoom != null)
+            oldRoom.Equipments.Remove(equipment);
+
+        newRoom.Equipments.Add(equipment);
+        equipment.AssignedRoom = newRoom;
+        equipment.OwnerStudent = null; // because it moved to room
+
+        return true;
+    }
+
+    public bool TransferStudent(Student student, Room newRoom)
+    {
+        if (student == null || newRoom == null)
+            return false;
+
+        if (newRoom.IsFull)
+        {
+            Console.WriteLine("Room is full. Transfer not possible.");
+            return false;
+        }
+
+        Room oldRoom = student.AssignedRoom;
+        if (oldRoom != null)
+            oldRoom.Residents.Remove(student);
+
+        newRoom.Residents.Add(student);
+        student.AssignedRoom = newRoom;
+
+        return true;
+    }
+
+    public int GetRemainingCapacity(string dormName)
+    {
+        Dormitory dorm = GetDormitory(dormName);
+        if (dorm == null)
+            return -1;
+
+        int total = 0;
+        foreach (Block block in dorm.Blocks)
+        {
+            foreach (Room room in block.Rooms)
+            {
+                total += room.Capacity - room.Residents.Count;
+            }
+        }
+        return total;
+    }
+
+    public bool AssignEquipmentToRoom(string equipmentName, Room room)
+    {
+        var equipment = GetEquipmentByName(equipmentName);
+        if (equipment == null || room == null)
+            return false;
+
+        if (equipment.AssignedRoom != null)
+            equipment.AssignedRoom.Equipments.Remove(equipment);
+
+        if (equipment.OwnerStudent != null)
+            equipment.OwnerStudent.PersonalItems.Remove(equipment);
+
+        equipment.AssignedRoom = room;
+        equipment.OwnerStudent = null; // assigned only to room
+        room.Equipments.Add(equipment);
+        return true;
+    }
+
+    public bool AssignEquipmentToStudent(string equipmentName, Student student)
+    {
+        var equipment = GetEquipmentByName(equipmentName);
+        if (equipment == null || student == null)
+            return false;
+
+        if (equipment.AssignedRoom != null)
+            equipment.AssignedRoom.Equipments.Remove(equipment);
+
+        if (equipment.OwnerStudent != null)
+            equipment.OwnerStudent.PersonalItems.Remove(equipment);
+
+        equipment.OwnerStudent = student;
+        equipment.AssignedRoom = null; // assigned only to student
+        student.PersonalItems.Add(equipment);
+        return true;
+    }
+
+    public bool UnassignEquipment(string equipmentName)
+    {
+        var equipment = GetEquipmentByName(equipmentName);
+        if (equipment == null)
+            return false;
+
+        equipment.AssignedRoom?.Equipments.Remove(equipment);
+        equipment.OwnerStudent?.PersonalItems.Remove(equipment);
+        equipment.AssignedRoom = null;
+        equipment.OwnerStudent = null;
+        return true;
+    }
 }
 
 class Program
 {
     static void Main()
     {
+        // ساخت سیستم خوابگاه
+        DormitorySystem system = new DormitorySystem();
+
+        // ایجاد خوابگاه
+        Dormitory dorm = new Dormitory
+        {
+            Name = "Central Dorm",
+            Address = "123 University Ave",
+            TotalCapacity = 100
+        };
+
+        // ایجاد مدیر خوابگاه و انتساب به خوابگاه
+        DormitoryManager manager = new DormitoryManager
+        {
+            FullName = "Ali Rezaei",
+            Id = "DM001",
+            PhoneNumber = "09121234567",
+            Address = "Tehran",
+            Position = "Dormitory Manager",
+            AssignedDormitory = dorm
+        };
+        dorm.Manager = manager;
+
+        // ایجاد بلوک و مدیر بلوک و افزودن آن به خوابگاه
+        Block block = new Block
+        {
+            BlockName = "A",
+            FloorCount = 3,
+            RoomCount = 2,
+            Manager = new BlockManager
+            {
+                FullName = "Sara Ahmadi",
+                Id = "BM001",
+                PhoneNumber = "09351234567",
+                Address = "Tehran",
+                Position = "Block Manager"
+            }
+        };
+        system.AddDormitory(dorm);
+        system.AddBlockToDormitory(block, dorm);
+
+        // ایجاد اتاق و افزودن به بلوک 
+        Room room = new Room
+        {
+            RoomNumber = "101",
+            Floor = 1,
+            Capacity = 6
+        };
+        block.Rooms.Add(room);
+        room.ParentBlock = block;
+
+        // ایجاد دانشجو و انتساب به خوابگاه، بلوک و اتاق
+        Student student = new Student("Mehdi Mohammadi", "ST001", "99123456")
+        {
+            PhoneNumber = "09123456789",
+            Address = "Kerman",
+            ResidenceDormitory = dorm,
+            ResidenceBlock = block,
+            AssignedRoom = room
+        };
+        room.Residents.Add(student);
+        system.AddStudent(student);
+
+        // ایجاد تجهیز متعلق به اتاق و افزودن به لیست تجهیزات اتاق و سیستم
+        Equipment roomEquipment = new Equipment
+        {
+            Name = "Table1",
+            Type = Equipment.EquipmentType.Table,
+            PartNumber = "PT123",
+            AssetNumber = "AST987",
+            Status = Equipment.EquipmentStatus.Healthy,
+            AssignedRoom = room
+        };
+        room.Equipments.Add(roomEquipment);
+        system.AddEquipment(roomEquipment);
+
+        // ایجاد تجهیز شخصی متعلق به دانشجو و افزودن به لیست تجهیزات شخصی دانشجو و سیستم
+        Equipment personalItem = new Equipment
+        {
+            Name = "Laptop",
+            Type = Equipment.EquipmentType.Table,
+            PartNumber = "LT001",
+            AssetNumber = "AST123",
+            Status = Equipment.EquipmentStatus.Healthy,
+            OwnerStudent = student
+        };
+        student.PersonalItems.Add(personalItem);
+        system.AddEquipment(personalItem);
+
+        // نمایش اطلاعات کلی سیستم
+        Console.WriteLine("System initialized successfully.");
+        Console.WriteLine("Dormitory name: " + dorm.Name);
+        Console.WriteLine("Total capacity: " + dorm.TotalCapacity);
+        Console.WriteLine("Used capacity: " + dorm.CurrentCapacity());
+        Console.WriteLine("Remaining capacity: " + dorm.RemainingCapacity());
+        Console.WriteLine("Student: " + student.FullName + " in Room " + room.RoomNumber);
+        Console.WriteLine("Room Equipments: " + room.Equipments.Count);
+        Console.WriteLine("Student Personal Equipments: " + student.PersonalItems.Count);
     }
-} 
+}
