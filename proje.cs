@@ -17,7 +17,11 @@ public class Student : Person
     private Dormitory _residenceDormitory;
     private List<Equipment> _personalItems = new();
 
-  
+    public Student()
+{
+    _personalItems = new List<Equipment>();
+}
+
     public string StudentId
     {
         get { return _studentId; }
@@ -46,11 +50,11 @@ public class Student : Person
     }
 
     public List<Equipment> PersonalItems
-    {
-        get { return _personalItems; }
-        set { _personalItems = value; }//حواسم هست که بعد برای برنامه اصلی . تست حواست به مقدار خالی باشد
+{
+    get { return _personalItems; }
+    set { _personalItems = value ?? new List<Equipment>(); }
+}
 
-    }
 }
 public class Block
 {
