@@ -358,6 +358,21 @@ public bool TransferEquipment(Equipment equipment, Room newRoom)
 
     return true;
 }
+public bool TransferStudent(Student student, Room newRoom)
+{
+    if (student == null || newRoom == null || newRoom.IsFull)
+        return false;
+
+    Room oldRoom = student.AssignedRoom;
+    if (oldRoom != null)
+        oldRoom.Residents.Remove(student);
+
+    newRoom.Residents.Add(student);
+    student.AssignedRoom = newRoom;
+
+    return true;
+}
+
 
 }
 
