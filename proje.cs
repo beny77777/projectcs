@@ -388,6 +388,42 @@ public int GetRemainingCapacity(string dormName)
     }
     return total;
 }
+public bool AssignEquipmentToRoom(string equipmentName, Room room)
+{
+    var equipment = GetEquipmentByName(equipmentName);
+    if (equipment == null || room == null)
+        return false;
+
+    equipment.AssignedRoom = room;
+    equipment.OwnerStudent = null; // فقط به اتاق نسبت داده شده
+    room.Equipments.Add(equipment);
+    return true;
+}
+
+public bool AssignEquipmentToStudent(string equipmentName, Student student)
+{
+    var equipment = GetEquipmentByName(equipmentName);
+    if (equipment == null || student == null)
+        return false;
+
+    equipment.OwnerStudent = student;
+    equipment.AssignedRoom = null; // فقط به دانشجو نسبت داده شده
+    student.PersonalItems.Add(equipment);
+    return true;
+}
+
+public bool UnassignEquipment(string equipmentName)
+{
+    var equipment = GetEquipmentByName(equipmentName);
+    if (equipment == null)
+        return false;
+
+    equipment.AssignedRoom?.Equipments.Remove(equipment);
+    equipment.OwnerStudent?.PersonalItems.Remove(equipment);
+    equipment.AssignedRoom = null;
+    equipment.OwnerStudent = null;
+    return true;
+}
 
 }
 
