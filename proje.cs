@@ -153,6 +153,16 @@ set
             return true;
     }
 }
+public int CurrentCapacity()
+{
+    return Students.Count;
+}
+
+public bool IsFull()
+{
+    return Students.Count >= Capacity;
+}
+
 }
 // کلاس برای خوابگاه
 public class Dormitory
