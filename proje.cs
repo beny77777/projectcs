@@ -242,6 +242,28 @@ public void RemoveStudent(Student student)
         _students.Remove(student);
     }
 }
+public bool RemoveBlock(string dormName, string blockName)
+{
+    Dormitory dorm = GetDormitory(dormName);
+    if (dorm == null) return false;
+
+    Block block = null;
+    foreach (Block b in dorm.Blocks)
+    {
+        if (b.BlockName == blockName)
+        {
+            block = b;
+            break;
+        }
+    }
+
+    if (block != null)
+    {
+        dorm.Blocks.Remove(block);
+        return true;
+    }
+    return false;
+}
 
 
 }
