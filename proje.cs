@@ -233,6 +233,22 @@ public class DormitorySystem
     public List<DormitoryManager> DormitoryManagers => _dormManagers;
     public List<BlockManager> BlockManagers => _blockManagers;
     public List<Equipment> Equipments => _allEquipments;
+    public void AddEquipment(Equipment equipment)
+{
+    if (equipment != null && !_allEquipments.Contains(equipment))
+        _allEquipments.Add(equipment);
+}
+
+public bool RemoveEquipment(Equipment equipment)
+{
+    if (equipment != null && _allEquipments.Contains(equipment))
+    {
+        _allEquipments.Remove(equipment);
+        return true;
+    }
+    return false;
+}
+
   
 
     public DormitorySystem()
