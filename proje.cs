@@ -233,11 +233,17 @@ public class DormitorySystem
     public List<DormitoryManager> DormitoryManagers => _dormManagers;
     public List<BlockManager> BlockManagers => _blockManagers;
     public List<Equipment> Equipments => _allEquipments;
-    public void AddDormitory(Dormitory dorm)
+  
+
+    public DormitorySystem()
 {
-    if (dorm != null && !_dormitories.Contains(dorm))
-        _dormitories.Add(dorm);
+    _students = new List<Student>();
+_allEquipments = new List<Equipment>();
+_dormitories = new List<Dormitory>();
+
 }
+
+    
 public void AddStudent(Student student)
 {
     if (student != null && !_students.Contains(student))
@@ -250,17 +256,13 @@ public void AddStudent(Student student)
 }
 public void AddBlockToDormitory(Block block, Dormitory dormitory)
 {
-    if (block != null && dormitory != null && dormitories.Contains(dormitory))
+    if (block != null && dormitory != null && _dormitories.Contains(dormitory))
     {
         dormitory.Blocks.Add(block);
         block.ParentDormitory = dormitory;
     }
 }
-public void AddStudent(Student student)
-{
-    if (!_students.Contains(student))
-        _students.Add(student);
-}
+
 public void RemoveStudent(Student student)
 {
     if (student != null && _students.Contains(student))
@@ -294,7 +296,7 @@ public bool AddBlockToDormitory(string dormName, Block block)
 {
     Dormitory dorm = GetDormitory(dormName);
     if (dorm == null) return false;
-    if (block.Manager == null || !students.Contains(block.Manager)) return false;
+    if (block.Manager == null || !_students.Contains(block.Manager)) return false;
     block.ParentDormitory = dorm;
     dorm.Blocks.Add(block);
     return true;
