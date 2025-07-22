@@ -117,33 +117,27 @@ public class Room
     public string RoomNumber { get; set; }
     public int Floor { get; set; }
     public int Capacity { get; set; } = 6; // حداکثر 6 نفر
+    public Room()
+{
+    _residents = new List<Student>();
+    _equipments = new List<Equipment>();
+}
 
     private List<Equipment> _equipments = new();
     public List<Equipment> Equipments
-    {
-        get { return _equipments; }
-set
 {
-    if (value != null)
-        _equipments = value;
-    else
-        _equipments = new List<Equipment>();
+    get { return _equipments; }
+    set { _equipments = value ?? new List<Equipment>(); }
 }
-    }
+
 
     private List<Student> _residents = new();
     public List<Student> Residents
-    {
-        get { return _residents; }
-       set
 {
-    if (value != null)
-        _residents = value;
-    else
-        _residents = new List<Student>();
+    get { return _residents; }
+    set { _residents = value ?? new List<Student>(); }
 }
 
-    }
 
     public Block ParentBlock { get; set; }
 
