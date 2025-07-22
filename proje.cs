@@ -273,8 +273,27 @@ public bool AddBlockToDormitory(string dormName, Block block)
     dorm.Blocks.Add(block);
     return true;
 }
+public Block GetBlock(string dormName, string blockName)
+{
+    Dormitory dorm = GetDormitory(dormName);
+    if (dorm == null) return null;
 
-
+    foreach (Block b in dorm.Blocks)
+    {
+        if (b.BlockName == blockName)
+            return b;
+    }
+    return null;
+}
+public Dormitory GetDormitory(string dormName)
+{
+    foreach (Dormitory d in _dormitories)
+    {
+        if (d.Name == dormName)
+            return d;
+    }
+    return null;
+}
 
 }
 
