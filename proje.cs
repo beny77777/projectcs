@@ -264,6 +264,16 @@ public bool RemoveBlock(string dormName, string blockName)
     }
     return false;
 }
+public bool AddBlockToDormitory(string dormName, Block block)
+{
+    Dormitory dorm = GetDormitory(dormName);
+    if (dorm == null) return false;
+    if (block.Manager == null || !students.Contains(block.Manager)) return false;
+    block.ParentDormitory = dorm;
+    dorm.Blocks.Add(block);
+    return true;
+}
+
 
 
 }
