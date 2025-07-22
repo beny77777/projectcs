@@ -372,7 +372,22 @@ public bool TransferStudent(Student student, Room newRoom)
 
     return true;
 }
+public int GetRemainingCapacity(string dormName)
+{
+    Dormitory dorm = GetDormitory(dormName);
+    if (dorm == null)
+        return -1;
 
+    int total = 0;
+    foreach (Block block in dorm.Blocks)
+    {
+        foreach (Room room in block.Rooms)
+        {
+            total += room.Capacity - room.Residents.Count;
+        }
+    }
+    return total;
+}
 
 }
 
