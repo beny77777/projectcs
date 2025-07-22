@@ -106,7 +106,7 @@ public class Equipment
 {
     public enum EquipmentType { Bed, Closet, Table, Chair, Refrigerator }
     public enum EquipmentStatus { Healthy, Damaged, InRepair }
-
+    public string Name { get; set; }
     public EquipmentType Type { get; set; }
     public string PartNumber { get; set; }
     public string AssetNumber { get; set; } 
@@ -233,6 +233,11 @@ public class DormitorySystem
     public List<DormitoryManager> DormitoryManagers => _dormManagers;
     public List<BlockManager> BlockManagers => _blockManagers;
     public List<Equipment> Equipments => _allEquipments;
+    public Equipment GetEquipmentByName(string name)
+{
+    return _allEquipments.FirstOrDefault(eq => eq.Name == name);
+}
+
     public void AddEquipment(Equipment equipment)
 {
     if (equipment != null && !_allEquipments.Contains(equipment))
